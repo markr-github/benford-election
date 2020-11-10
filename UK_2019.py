@@ -47,3 +47,5 @@ for ax in axs[1]:
     ax.set_xlabel('Vote count first digit',fontsize=14)
 
 fig.tight_layout()
+fig.savefig('./UK_2019.png',dpi=240)
+plt.close(fig.number)
