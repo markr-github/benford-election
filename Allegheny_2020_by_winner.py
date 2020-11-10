@@ -59,3 +59,5 @@ for ax in axs[1]:
     ax.set_xlabel("First digit of vote count",fontsize=14)
 
 plt.tight_layout()
+fig.savefig('./Allegheny_2020.png',dpi=240)
+plt.close(fig.number)
