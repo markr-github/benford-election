@@ -14,49 +14,36 @@ sns.set_style('whitegrid')
 mpl.rcParams['axes.grid.axis'] = 'y'
 
 # load data and define functions to extract Benford values
-df = pd.read_csv('../data/pa_allegheny_county.csv',skiprows=2)
-data = df[df.columns[[0,1, 4, 7, 10]]][:-1] # remove total count at bottom
-
-data.columns = ['Precinct','Registered','Biden','Trump','Jorgensen']
-
-trump_wins = data['Trump'] > data['Biden']
-biden_wins = data['Biden'] > data['Trump']
-
+df = pd.read_csv('../data/UK_GE_constituency_results.csv')
 first_digit = lambda X : np.array([ int(str(x)[0]) for x in X ])
 digit_bars = lambda X : np.histogram(X,bins=np.arange(0.5,10))[0]
 digits = np.arange(1,10)
 benfords_norm = np.log10(1 + 1/digits)
 
-plot_data = np.array([
-    digit_bars(first_digit(data['Biden'][trump_wins])),
-    digit_bars(first_digit(data['Trump'][trump_wins])),
-    digit_bars(first_digit(data['Biden'][biden_wins])),
-    digit_bars(first_digit(data['Trump'][biden_wins])),
-    ])
-plot_titles = np.array([
-    "Biden votes, Trump precincts",
-    "Trump votes, Trump precincts",
-    "Biden votes, Biden precincts",
-    "Trump votes, Biden precincts",
-    ])
+# load top 4 national party counts: conservative, labour, lib dem, brexit,
+# and save their names for axis titles.
+party_keys = np.array([ 'con','lab','ld','brexit' ])
+party_names = np.array([ 'Conservative','Labour','Lib Dem','Brexit'])
+party_votes = { k : digit_bars(first_digit(df[k])) for k in party_keys }
 
-####
-#### Plot Biden counts on left, Trump counts on right.
-fig,axs = plt.subplots(2,2,figsize=(7,7))
-sns.despine()
+# make figure.
+kws = {
+   'xticks' : digits,
+   'ylim' : [0,0.5],
+   }
+fig,axs = plt.subplots(2,2,subplot_kw=kws,figsize=(6,6))
 
-for a,ax in enumerate(axs.flatten()):
-    ax.set_title(plot_titles[a])
-    ax.bar(digits,plot_data[a],label='First digit')
-    # scaled Benford
-    scale = plot_data[a].sum()
-    ax.plot(digits,benfords_norm*scale,'r-',lw=3,label='Benford prediction')
-    
-axs[0,0].legend()
+for a,k in enumerate(party_keys):
+    ax = axs.flatten()[a]
+    ax.set_title(party_names[a])
+    ax.bar(digits,party_votes[k] / party_votes[k].sum(),label='First digit',
+           color='None',edgecolor='blue')
+    ax.plot(digits,benfords_norm,'r-',lw=4,label='Benford prediction')
+    ax.legend()
+
 for ax in axs[:,0]:
-    ax.set_ylabel("Precincts",fontsize=14)
+    ax.set_ylabel('Fraction of constituencies',fontsize=14)
 for ax in axs[1]:
-    ax.set_xlabel("First digit of vote count",fontsize=14)
+    ax.set_xlabel('Vote count first digit',fontsize=14)
 
-
-plt.tight_layout()
+fig.tight_layout()
