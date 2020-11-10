@@ -2,7 +2,7 @@
 
 UK_2019.py
   Generates a figure showing the first digit of the 2019 vote count in each UK constituency for 
-  the four largest national parties in each constituency.
+  the four largest national parties.
 
 Allegheny_2020_by_winner.py
   Generates a figure showing the first digit of the 2020 vote count in each precinct in Allegheny
