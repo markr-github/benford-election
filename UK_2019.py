@@ -14,7 +14,7 @@ sns.set_style('whitegrid')
 mpl.rcParams['axes.grid.axis'] = 'y'
 
 # load data and define functions to extract Benford values
-df = pd.read_csv('../data/UK_GE_constituency_results.csv')
+df = pd.read_csv('./data/UK_GE_constituency_results.csv')
 first_digit = lambda X : np.array([ int(str(x)[0]) for x in X ])
 digit_bars = lambda X : np.histogram(X,bins=np.arange(0.5,10))[0]
 digits = np.arange(1,10)
