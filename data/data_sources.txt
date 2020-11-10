@@ -1,0 +1,11 @@
+Following guide at:
+https://github.com/cjph8914/2020_benfords/blob/main/Allegheny_County_PA_Benfords_Data.ipynb
+
+ALLEGHENY COUNTY:
+# Data downloaded as XLS from https://results.enr.clarityelections.com/PA/Allegheny/106267/web.264614/#/detail/0004
+# worksheet 1 saved to csv to pa_allegheny_county.csv
+
+UK 2019 ELECTION:
+Data downloaded from:
+http://researchbriefings.files.parliament.uk/documents/CBP-8749/HoC-GE2019-results-by-constituency-csv.csv
+
